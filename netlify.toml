@@ -2,6 +2,8 @@
   command = "npm run build"
   publish = "build"
 
+# Firebase API keys are public identifiers — security is via Firestore rules.
+# Disable smart secret detection to prevent false positives in node_modules.
 [build.environment]
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 

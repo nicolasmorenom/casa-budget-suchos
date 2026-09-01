@@ -418,7 +418,7 @@ function TxModal({ onClose, onSave, user, categories, accounts, tx }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <span className="modal-title">{tx ? "Edit Transaction" : "Add Transaction"}</span>
+          <span className="modal-title">{tx ? "Edit Transaction" : "New Transaction"}</span>
           <button className="modal-close" onClick={onClose}><Icon name="x" /></button>
         </div>
         <div className="tab-bar" style={{ marginBottom: 16 }}>
@@ -536,7 +536,7 @@ function CategoriesPage({ categories, onAdd, onEdit, onDelete }) {
       </div>
       <button className="btn btn-ghost btn-sm" style={{ padding:5 }} onClick={() => { setEditCat(c); setShowModal(true); }}><Icon name="edit" size={13}/></button>
       {!c.id?.startsWith("d_") && (
-        <button className="btn btn-ghost btn-sm" style={{ padding:5 }} onClick={() => onDelete(c.id)}><Icon name="trash" size={13}/></button>
+        <button className="btn btn-ghost btn-sm" style={{ padding:5 }} onClick={() => { if(window.confirm(`Delete "${c.label}"?`)) onDelete(c.id); }}><Icon name="trash" size={13}/></button>
       )}
     </div>
   );
@@ -2249,7 +2249,7 @@ function TransactionsPage({ transactions, categories, onDelete, onEdit, onImport
                     <div className={`tx-amount ${t.type}`}>{t.type==="income"?"+":"-"}{fmtDec(t.amount)}</div>
                     <div className="tx-actions">
                       <button className="btn btn-ghost btn-icon" onClick={() => setEditTx(t)}><Icon name="edit" size={14} /></button>
-                      <button className="btn btn-ghost btn-icon" onClick={() => onDelete("transactions",t.id)}><Icon name="trash" size={14} /></button>
+                      <button className="btn btn-ghost btn-icon" onClick={() => { if(window.confirm("Delete this transaction?")) onDelete("transactions",t.id); }}><Icon name="trash" size={14} /></button>
                     </div>
                   </div>
                 ))}
@@ -3501,7 +3501,7 @@ export default function Dashboard({ householdId }) {
     } catch(e) { console.error("editCategory error:", e); throw e; }
   };
   const deleteCategory = async (id) => { if(window.confirm("Delete this category?")) await deleteDoc(doc(db,"categories",id)); };
-  const addTx        = (data) => addDoc(collection(db,"transactions"),{...data,householdId,createdAt:serverTimestamp(),addedBy:user.email});
+  const addTx        = async (data) => { await addDoc(collection(db,"transactions"),{...data,householdId,createdAt:serverTimestamp(),addedBy:user.email}); };
   const addAccount   = async (data) => addDoc(collection(db,"accounts"),{...data,householdId,createdAt:serverTimestamp()});
   const editAccount  = async (id, data) => updateDoc(doc(db,"accounts",id),data);
   const deleteAccount= async (id) => deleteDoc(doc(db,"accounts",id));
