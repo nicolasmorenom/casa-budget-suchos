@@ -3,7 +3,7 @@
   publish = "build"
 
 [build.environment]
-  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyCLZW6tjwb4PbVGqhKJOOszIo9vaHB3z-o"
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
 [[redirects]]
   from   = "/*"
