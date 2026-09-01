@@ -2440,7 +2440,7 @@ function BillsPage({ bills, onDelete, onToggle }) {
 }
 
 // ─── PAGE: ANALYTICS ─────────────────────────────────────────────────────────
-function AnalyticsPage({ transactions }) {
+function AnalyticsPage({ transactions, categories }) {
   const now = new Date();
   const monthlyData = Array.from({length:12},(_,i)=>{
     const tx = transactions.filter(t=>{const d=new Date(t.date);return d.getMonth()===i&&d.getFullYear()===now.getFullYear();});
