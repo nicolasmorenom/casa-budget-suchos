@@ -1,0 +1,27 @@
+// Casa Budget — Private app for Nicolas & Natalia only
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isFamily() {
+      return request.auth != null &&
+        request.auth.token.email in [
+          "nicolasm1410@gmail.com",
+          "n.rodriguez2338@gmail.com"
+        ];
+    }
+
+    match /users/{userId}       { allow read, write: if isFamily(); }
+    match /transactions/{docId} { allow read, write: if isFamily(); }
+    match /goals/{docId}        { allow read, write: if isFamily(); }
+    match /bills/{docId}        { allow read, write: if isFamily(); }
+    match /categories/{docId}   { allow read, write: if isFamily(); }
+    match /budgetPlans/{docId}  { allow read, write: if isFamily(); }
+    match /settings/{docId}     { allow read, write: if isFamily(); }
+  }
+}
+
+    match /accounts/{docId} {
+      allow read, delete, update: if isMember(resource.data.householdId);
+      allow create: if isMember(request.resource.data.householdId);
+    }
