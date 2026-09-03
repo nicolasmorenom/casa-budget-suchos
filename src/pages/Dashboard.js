@@ -108,6 +108,31 @@ const fmtDec = (n) => new Intl.NumberFormat("en-US", { style: "currency", curren
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 // ─── ICONS ────────────────────────────────────────────────────────────────────
+// CATEGORY GROUP HELPERS
+const LABEL_GROUP_MAP = [
+  { words:["rent","mortgage","electricity","water","sewer","internet","phone","maintenance","hoa"], group:"housing" },
+  { words:["car payment","auto","fuel","uber","lyft","taxi","transit","bus","metro","parking","toll"], group:"transportation" },
+  { words:["grocer","supermarket","trader","whole food","walmart","costco","aldi","lidl","jumbo","exito","carulla","rappi","delivery","restaurant","dining","coffee","starbucks","juan valdez","mcdonald","burger","pizza"], group:"food" },
+  { words:["doctor","medical","dentist","dental","pharmacy","farmatodo","gym","fitness","hospital","clinic"], group:"health" },
+  { words:["hair","nail","salon","spa","clothing","clothes","shoe","amazon","shopping","zara","shein","target"], group:"personal" },
+  { words:["netflix","spotify","disney","streaming","subscription","event","concert","movie","theater","travel","hotel","airbnb","flight","airline"], group:"entertainment" },
+  { words:["school","jaco","belen","kids","child","toy","daycare","tuition"], group:"children" },
+  { words:["saving","investment","retirement","emergency","401k","ira"], group:"savings" },
+  { words:["credit card","loan","debt"], group:"loans" },
+  { words:["insurance","insur"], group:"insurance" },
+  { words:["church","parish","giv","charity","donation","gift"], group:"gifts" },
+  { words:["tax","irs","hacienda"], group:"taxes" },
+  { words:["salary","bonus","freelance","paycheck","rental income","other income"], group:"income" },
+];
+const guessGroup = (label, type) => {
+  const l = (label || "").toLowerCase();
+  for (const { words, group } of LABEL_GROUP_MAP) {
+    if (words.some(w => l.includes(w))) return group;
+  }
+  return type === "income" ? "income" : "other";
+};
+const DEFAULT_GROUP_BY_ID = Object.fromEntries(DEFAULT_CATEGORIES.map(c => [c.id, c.group]));
+
 const Icon = ({ name, size = 16 }) => {
   const icons = {
     home:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>,
