@@ -185,8 +185,9 @@ function MonthNav({ month, year, onPrev, onNext }) {
 // ─── CATEGORY MODAL ───────────────────────────────────────────────────────────
 function CategoryModal({ cat, onClose, onSave }) {
   const [form, setForm] = useState(cat
-    ? { label: cat.label, type: cat.type, icon: cat.icon, color: cat.color, monthlyBudget: cat.monthlyBudget || 0 }
-    : { label: "", type: "expense", icon: "📦", color: "#888" }
+    ? { label: cat.label, type: cat.type, icon: cat.icon, color: cat.color, monthlyBudget: cat.monthlyBudget || 0,
+        group: cat.group || (cat.type === "income" ? "income" : "other") }
+    : { label: "", type: "expense", icon: "📦", color: "#888", group: "other" }
   );
   const [saving, setSaving] = useState(false);
   const [error, setError]   = useState("");
@@ -213,7 +214,7 @@ function CategoryModal({ cat, onClose, onSave }) {
         </div>
         <div className="tab-bar" style={{ marginBottom: 16 }}>
           {["income","expense"].map(t => (
-            <button key={t} className={`tab-btn ${form.type === t ? "active" : ""}`} onClick={() => setForm(f => ({ ...f, type: t }))}>
+            <button key={t} className={`tab-btn ${form.type === t ? "active" : ""}`} onClick={() => setForm(f => ({ ...f, type: t, group: t === "income" ? "income" : (f.group === "income" ? "other" : f.group) }))}>
               {t === "income" ? "Income" : "Expense"}
             </button>
           ))}
@@ -222,6 +223,14 @@ function CategoryModal({ cat, onClose, onSave }) {
             <label>Category Name</label>
             <input value={form.label} onChange={e => setForm(f => ({ ...f, label: e.target.value }))} placeholder="e.g. Groceries" />
           </div>
+        <div className="form-group">
+          <label>Group</label>
+          <select value={form.group || "other"} onChange={e => setForm(f => ({ ...f, group: e.target.value }))}>
+            {CATEGORY_GROUPS
+              .filter(g => g.type === form.type || g.id === "income")
+              .map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+          </select>
+        </div>
         <div className="form-group">
           <label>Icon</label>
           <div className="cat-list" style={{ maxHeight: 80, overflowY: "auto" }}>
