@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import {
   collection, addDoc, deleteDoc, doc, onSnapshot,
-  query, orderBy, serverTimestamp, updateDoc, setDoc, getDoc, where
+  query, orderBy, serverTimestamp, updateDoc, setDoc, getDoc, getDocs, where
 } from "firebase/firestore";
 import { useAuth } from "../App";
 import {
@@ -3465,7 +3465,6 @@ export default function Dashboard({ householdId }) {
     // Migrate categories missing a group field — runs once in background
     (async () => {
       try {
-        const { getDocs } = await import("firebase/firestore");
         const snap = await getDocs(query(collection(db,"categories"), where("householdId","==",householdId)));
         const updates = [];
         snap.docs.forEach(d => {
@@ -3475,8 +3474,13 @@ export default function Dashboard({ householdId }) {
             updates.push(updateDoc(doc(db,"categories",d.id), { group }));
           }
         });
-        if (updates.length) await Promise.all(updates);
-      } catch(e) { console.warn("Group migration:", e.message); }
+        if (updates.length) {
+          await Promise.all(updates);
+          console.log(`Migrated ${updates.length} categories to groups`);
+        } else {
+          console.log("Category groups: all up to date");
+        }
+      } catch(e) { console.warn("Group migration failed:", e.message); }
     })();
 
     return () => { unsubTx(); unsubG(); unsubB(); unsubCats(); unsubAcc(); };
