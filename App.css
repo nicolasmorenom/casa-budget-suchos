@@ -946,3 +946,55 @@ body {
   border-color: var(--gold) !important;
   color: var(--gold) !important;
 }
+
+/* ── TX PAGE: prevent horizontal scroll on mobile ───────────────────────────── */
+.tx-outer { max-width: 100%; overflow-x: hidden; }
+
+@media (max-width: 768px) {
+  /* Transactions page full containment */
+  .tx-outer { width: 100%; overflow-x: hidden; }
+
+  /* KPI summary row in transactions — allow wrapping */
+  .tx-outer .kpi-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Month nav + buttons row — wrap on small screens */
+  .page-header-row { flex-wrap: wrap; gap: 8px; }
+  .page-header-row > div:last-child { flex-wrap: wrap; gap: 6px; }
+
+  /* ── Chat bubble — move to bottom right on mobile, smaller ── */
+  .chat-bubble {
+    bottom: calc(var(--nav-h) + 14px) !important;
+    left: auto !important;
+    right: 14px !important;
+    width: 42px !important;
+    height: 42px !important;
+  }
+  /* When chat panel is open, position from right */
+  .chat-panel {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: calc(var(--nav-h) + 62px) !important;
+    margin: 0 !important;
+  }
+
+  /* FAB moves to bottom-left on mobile so it doesn't clash with chat */
+  .fab {
+    right: auto !important;
+    left: 14px !important;
+    bottom: calc(var(--nav-h) + 14px) !important;
+  }
+
+  /* ── Budget group header — fix text overlap ── */
+  .budget-group-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .budget-group-header .group-stats {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  /* Extra bottom padding so FAB/chat never covers content */
+  .main-content { padding-bottom: calc(var(--nav-h) + 80px) !important; }
+}
