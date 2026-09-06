@@ -329,140 +329,147 @@ body {
    ══════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* Full-viewport block layout — no flex tricks */
-  .app-shell {
-    display: block;
-    height: auto;
-    overflow: visible;
-  }
+  /* ── Layout ── */
+  .app-shell { display: block; height: auto; overflow: visible; }
 
-  /* Fixed bottom nav */
+  /* Fixed bottom nav bar */
   .sidebar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
+    position: fixed; bottom: 0; left: 0; right: 0;
     width: 100%; height: var(--nav-h);
     flex-direction: row; flex-wrap: nowrap;
-    padding: 0; overflow: visible;
-    z-index: 400;
-    border-right: none;
-    border-top: 1px solid var(--border2);
+    padding: 0; z-index: 400;
+    border-right: none; border-top: 1px solid var(--border2);
     background: var(--surface);
-    /* Scroll if items overflow */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    box-shadow: 0 -1px 8px rgba(0,0,0,0.06);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
   }
   .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-logo, .sidebar-footer, .nav-section-label { display: none; }
 
-  .sidebar-logo,
-  .sidebar-footer,
-  .nav-section-label { display: none; }
-
+  /* Nav items */
   .nav-item {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    min-width: 52px;
-    height: var(--nav-h);
-    gap: 3px;
-    padding: 4px 2px 10px;
-    border-radius: 0;
-    font-size: 10px;
-    font-weight: 400;
+    flex-direction: column; align-items: center; justify-content: center;
+    flex: 1; min-width: 52px; height: var(--nav-h);
+    gap: 3px; padding: 4px 2px 10px; border-radius: 0;
+    font-size: 10px; font-weight: 400;
     border-top: 2px solid transparent;
-    white-space: nowrap;
-    text-align: center;
+    white-space: nowrap; text-align: center;
   }
   .nav-item svg { width: 20px; height: 20px; opacity: 0.5; }
-  .nav-item.active {
-    color: var(--gold);
-    background: transparent;
-    border-top-color: var(--gold);
-    font-weight: 500;
-  }
+  .nav-item.active { color: var(--gold); background: transparent; border-top-color: var(--gold); font-weight: 600; }
   .nav-item.active svg { opacity: 1; }
 
-  /* Scrollable main content — clear bottom nav */
+  /* Main content — pad top for header, bottom for nav */
   .main-content {
-    width: 100%;
-    min-height: 100vh;
-    height: auto;
-    padding: 16px 14px calc(var(--nav-h) + 24px);
+    width: 100%; min-height: 100vh; height: auto;
+    padding: 16px 12px calc(var(--nav-h) + 28px);
     overflow-y: visible;
   }
 
-  /* FAB clears the nav bar */
-  .fab { bottom: calc(var(--nav-h) + 14px); right: 16px; width: 48px; height: 48px; }
+  /* FAB */
+  .fab { bottom: calc(var(--nav-h) + 16px); right: 14px; width: 50px; height: 50px; }
 
-  /* Grids collapse */
+  /* ── Grids ── */
   .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 10px; }
   .form-row { grid-template-columns: 1fr; gap: 10px; }
   .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
 
-  /* Page headers stack */
-  .page-header { margin-bottom: 16px; }
-  .page-header-row { flex-direction: column !important; gap: 10px !important; align-items: flex-start !important; }
+  /* ── Page headers ── */
+  .page-header { margin-bottom: 14px; }
+  .page-header h1 { font-size: 20px; }
+  .page-header-row { flex-direction: column !important; gap: 8px !important; align-items: flex-start !important; }
 
-  /* Month nav compact */
-  .month-label { min-width: 100px; font-size: 12px; }
+  /* ── Month nav ── */
+  .month-label { min-width: 96px; font-size: 12px; }
+  .month-nav button { width: 28px; height: 28px; }
 
-  /* Modals slide up from bottom */
+  /* ── Modals — full-width bottom sheet ── */
   .modal-overlay { align-items: flex-end; padding: 0; }
   .modal {
-    border-radius: 18px 18px 0 0;
-    max-height: 90vh;
-    width: 100%;
-    max-width: 100%;
-    padding: 20px 18px;
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh; width: 100%; max-width: 100%;
+    padding: 16px 16px 24px;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
+  /* Drag handle on modals */
+  .modal::before {
+    content: "";
+    display: block; width: 36px; height: 4px;
+    background: var(--border2); border-radius: 100px;
+    margin: 0 auto 14px;
+  }
+  .modal-header { margin-bottom: 14px; }
+  .modal-title { font-size: 17px; }
 
-  /* Transaction page layout */
-  .tx-split   { flex-direction: column !important; }
+  /* ── Cards ── */
+  .card { padding: 12px 14px; border-radius: 10px; }
+  .kpi-card { padding: 12px 13px; }
+  .kpi-label { font-size: 9px; }
+  .kpi-value { font-size: 18px; }
+  .kpi-sub { font-size: 10px; }
+
+  /* ── Transaction list ── */
+  .tx-split { flex-direction: column !important; }
   .tx-sidebar { width: 100% !important; }
   .tx-cat-scroll {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 6px;
-    padding: 8px 14px 12px;
+    display: flex !important; flex-direction: row !important;
+    flex-wrap: nowrap !important; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    gap: 6px; padding: 8px 12px 10px;
   }
   .tx-cat-scroll::-webkit-scrollbar { display: none; }
-  .tx-cat-chip {
-    flex-shrink: 0 !important;
-    white-space: nowrap !important;
-  }
+  .tx-cat-chip { flex-shrink: 0 !important; white-space: nowrap !important; }
   .tx-type-row {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 6px;
-    padding: 10px 14px 0;
-    border-bottom: 1px solid var(--border);
+    display: flex !important; flex-direction: row !important;
+    gap: 6px; padding: 10px 12px 0; border-bottom: 1px solid var(--border);
   }
   .tx-type-row button { flex: 1; }
+  .tx-actions { opacity: 1 !important; }
+  .tx-desc { font-size: 13px; }
+  .tx-meta { font-size: 11px; }
+  .tx-amount { font-size: 13px; }
+  .tx-icon { width: 30px; height: 30px; font-size: 13px; border-radius: 8px; }
 
-  /* Budget summary 1-col */
+  /* ── Budget ── */
   .budget-summary-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
 
-  /* tx-actions always visible on touch */
-  .tx-actions { opacity: 1 !important; }
+  /* ── Buttons ── */
+  .btn { padding: 9px 13px; font-size: 13px; }
+  .btn-sm { padding: 6px 10px; font-size: 12px; }
 
-  /* Cards slightly less padding on mobile */
-  .card { padding: 14px 16px; }
-  .kpi-card { padding: 13px 14px; }
-  .kpi-value { font-size: 19px; }
+  /* ── Tab bar — scrollable on narrow screens ── */
+  .tab-bar { overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 6px 12px; font-size: 12px; white-space: nowrap; }
 
-  /* Prevent iOS auto-zoom on inputs */
+  /* ── Search input ── */
+  .search-input { font-size: 14px; padding: 9px 12px; }
+
+  /* ── Calculator — full width bottom sheet ── */
+  .calc-overlay { align-items: flex-end; }
+  .calc { width: 100%; border-radius: 20px 20px 0 0; padding: 12px 14px 28px; }
+  .calc-btn { height: 58px; border-radius: 12px; font-size: 19px; }
+  .calc-grid { gap: 8px; }
+
+  /* ── Chat bubble ── */
+  .chat-bubble { bottom: calc(var(--nav-h) + 16px); left: 14px; width: 46px; height: 46px; }
+  .chat-panel { left: 0; right: 0; bottom: calc(var(--nav-h) + 68px); width: auto; border-radius: 16px; margin: 0 8px; }
+
+  /* ── More drawer ── */
+  .more-drawer-item { padding: 14px 18px !important; font-size: 15px; }
+
+  /* ── Prevent iOS auto-zoom ── */
   input, select, textarea { font-size: 16px !important; }
+
+  /* ── Charts — prevent overflow ── */
+  .recharts-wrapper, .recharts-surface { overflow: visible !important; }
 }
 
 @media (max-width: 380px) {
   .nav-item { min-width: 46px; font-size: 9px; padding: 4px 1px 8px; }
   .nav-item svg { width: 18px; height: 18px; }
   .kpi-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .main-content { padding-left: 10px; padding-right: 10px; }
   .main-content { padding-left: 12px; padding-right: 12px; }
 }
 
